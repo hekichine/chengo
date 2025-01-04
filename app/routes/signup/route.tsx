@@ -1,14 +1,17 @@
-import { ActionFunctionArgs } from "@remix-run/node";
-import { Form, json, Link, useActionData } from "@remix-run/react";
+import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
+import { Form, json, Link, redirect, useActionData } from "@remix-run/react";
 import { validateSignUp } from "~/utils/validate.server";
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 import {db} from '~/utils/db.server';
+import { createUserSession, getUserId } from "~/utils/session.server";
 
-export const loader = async () => {
-  return json({
-    message: 'Hello World!'
-  })
+export const loader = async ({request}: LoaderFunctionArgs) => {
+ const user = await getUserId(request);
+ if(user){
+   return redirect('/')
+ }
+ return null;
 }
 export const action = async ({request}: ActionFunctionArgs) => {
   const formData = await request.formData();
@@ -20,17 +23,32 @@ export const action = async ({request}: ActionFunctionArgs) => {
     return json({errors})
   }
   const hassPassword = await bcrypt.hash(password,10);
-  
-  const user = await db.user.create({
+  const user = await db.user.findFirst({
+    where: {
+      email: email
+    }
+  })
+  if(user){
+    return json({
+      errors: {
+        email: ['Email already exists']
+      }
+    },{status:401})
+  }
+  const new_user = await db.user.create({
     data: {
       email: email,
       password: hassPassword
     }
   })
+  const user_id = new_user.id.toString();
 
-  return json({
-    message: 'Success',
-    user: user
+  return createUserSession({
+    request,
+    userId: user_id,
+    roleId: '1',
+    remember: true,
+    redirectTo:'/'
   })
 }
 
