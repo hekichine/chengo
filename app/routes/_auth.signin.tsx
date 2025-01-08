@@ -39,14 +39,21 @@ export async function action({request}: ActionFunctionArgs){
     return json({errors},{status:401})
   }
   let redirect: string = '/'
+  let settings;
   if(user.role_id !== 1){
     redirect = '/admin'
+    settings = await db.settings.findFirst({
+      where: {
+        user_id: user.id
+      }
+    })
   }
 
   return createUserSession({
     request,
     userId: user.id.toString(),
     roleId: user.role_id.toString(),
+    settings: settings ? settings.id.toString() : '',
     remember: remember,
     redirectTo: redirect
   })

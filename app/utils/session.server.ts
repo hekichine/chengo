@@ -3,6 +3,7 @@ import { createCookieSessionStorage ,redirect } from "@remix-run/node";
 type SessionData = {
   userId: string
   roleId: string
+  settings?: string
 }
 type SessionFlashData = {
   error: string
@@ -21,18 +22,21 @@ export async function createUserSession({
   request,
   userId,
   roleId,
+  settings,
   remember,
   redirectTo,
 }: {
   request: Request;
   userId: string;
   roleId: string;
+  settings: string;
   remember: boolean;
   redirectTo: string;
 }) {
   const session = await getSession(request);
   session.set('userId', userId);
   session.set('roleId', roleId);
+  session.set('settings', settings);
   return redirect(redirectTo, {
     headers: {
       'Set-Cookie': await sessionStorage.commitSession(session, {
@@ -59,6 +63,11 @@ export async function getRoleId(request: Request){
   const session = await getSession(request);
   const roleId = session.get('roleId');
   return roleId;
+}
+export async function getSettings(request: Request){
+  const session = await getSession(request);
+  const settings = JSON.parse(session.get('settings') || '{}');
+  return settings;
 }
 export async function requireUserId(
   request: Request,

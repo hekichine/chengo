@@ -13,7 +13,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
+model Settings {
+  id Int @id @default(autoincrement())
+  settings String
+  user_id Int
+  user User @relation(fields: [user_id],references: [id],onDelete: NoAction, onUpdate: NoAction)
+}
 model Role{
   id Int @id @default(autoincrement())
   role_name String
@@ -26,5 +31,78 @@ model User{
   password String
   avatar String?
   role_id Int @default(1)
-  Role Role @relation(fields: [role_id],references: [id],onDelete: NoAction, onUpdate: NoAction)
+  role Role @relation(fields: [role_id],references: [id],onDelete: NoAction, onUpdate: NoAction)
+  reviews ProductReview[]
+  settings Settings[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProductImages{
+  id Int @id @default(autoincrement())
+  product_id Int
+  image_path String
+  product Product @relation(fields: [product_id],references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Product{
+  id Int @id @default(autoincrement())
+  name String
+  price Float
+  compare_price Float
+  description String
+  images ProductImages[]
+  category_id Int
+  product_attributes ProductAttributes[]
+  reviews ProductReview[]
+
+  categories_on_products CategoriesOnProducts[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Category{
+  id Int @id @default(autoincrement())
+  name String
+
+  categories_on_products CategoriesOnProducts[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model CategoriesOnProducts{
+  product Product @relation(fields: [product_id],references: [id],onDelete: NoAction, onUpdate: NoAction)
+  product_id Int
+  category Category @relation(fields: [category_id],references: [id],onDelete: NoAction, onUpdate: NoAction)
+  category_id Int
+
+  @@id([product_id,category_id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model ProductAttributes{
+  id Int @id @default(autoincrement())
+  product_id Int
+  attribute_name  String
+  attribute_value String
+  product Product @relation(fields: [product_id],references: [id],onDelete: NoAction, onUpdate: NoAction)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model ProductReview{
+  id Int @id @default(autoincrement())
+  product_id Int 
+  user_id Int
+  rating Int
+  review String
+  product Product @relation(fields: [product_id],references: [id],onDelete: NoAction, onUpdate: NoAction)
+  user User @relation(fields: [user_id],references: [id],onDelete: NoAction, onUpdate: NoAction)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

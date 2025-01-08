@@ -47,6 +47,7 @@ export const action = async ({request}: ActionFunctionArgs) => {
     request,
     userId: user_id,
     roleId: '1',
+    settings:'',
     remember: true,
     redirectTo:'/'
   })
