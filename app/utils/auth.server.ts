@@ -1,15 +1,16 @@
 import { redirect } from "@remix-run/node";
-import { getRoleId } from "./session.server";
+import { getUserId, getUserRole } from "./session.server";
 import { abort } from "./abort.server";
 
+
 export async function requireAdmin(request: Request) {
-  const role_id = await getRoleId(request);
-  
-  if (!role_id) {
+  const userId = await getUserId(request);
+  const role = await getUserRole(request);
+
+  if (!userId) {
     throw redirect("/signin");
   }
-
-  if (role_id !== "3") {
+  if (role?.toLocaleLowerCase() !== "admin") {
     // throw redirect("/"); 
     abort(403,'You do not have permission to access this page.')
   }

@@ -1,5 +1,5 @@
 import { Link, Outlet } from "@remix-run/react";
-import Sizebar from "./Sizebar";
+import Sidebar from "./Sidebar";
 import { json, LoaderFunctionArgs } from "@remix-run/node";
 import { requireAdmin } from "~/utils/auth.server";
 import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
@@ -12,11 +12,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function Admin(){
   return (
-    <>
-      <Sizebar />
-      <Outlet />
-      <footer>Admin footer</footer>
-    </>
+    <div className="bg-gray-50 h-screen">
+      <Sidebar />
+      <main className="md:ms-96 pt-5">
+        <Outlet />
+      </main>
+    </div>
   )
 }
 

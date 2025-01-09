@@ -27,6 +27,9 @@ export async function action({request}: ActionFunctionArgs){
   const user = await db.user.findUnique({
     where: {
       email: email
+    },
+    include: {
+      role: true
     }
   })
   if(!user){
@@ -52,7 +55,9 @@ export async function action({request}: ActionFunctionArgs){
   return createUserSession({
     request,
     userId: user.id.toString(),
-    roleId: user.role_id.toString(),
+    role: user.role.role_name,
+    name: user.name || '',
+    avatar: user.avatar || '',
     settings: settings ? settings.id.toString() : '',
     remember: remember,
     redirectTo: redirect

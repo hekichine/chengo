@@ -2,8 +2,10 @@ import { createCookieSessionStorage ,redirect } from "@remix-run/node";
 
 type SessionData = {
   userId: string
-  roleId: string
+  role: string
+  avatar?: string
   settings?: string
+  name?: string
 }
 type SessionFlashData = {
   error: string
@@ -21,21 +23,27 @@ const sessionStorage = createCookieSessionStorage<SessionData, SessionFlashData>
 export async function createUserSession({
   request,
   userId,
-  roleId,
+  role,
+  name,
+  avatar,
   settings,
   remember,
   redirectTo,
 }: {
   request: Request;
   userId: string;
-  roleId: string;
+  role: string;
+  name: string;
+  avatar: string;
   settings: string;
   remember: boolean;
   redirectTo: string;
 }) {
   const session = await getSession(request);
   session.set('userId', userId);
-  session.set('roleId', roleId);
+  session.set('role', role);
+  session.set('name', name);
+  session.set('avatar', avatar);
   session.set('settings', settings);
   return redirect(redirectTo, {
     headers: {
@@ -59,10 +67,20 @@ export async function getUserId (request: Request){
   const userId = session.get('userId');
   return userId;
 }
-export async function getRoleId(request: Request){
+export async function getUserRole (request: Request){
   const session = await getSession(request);
-  const roleId = session.get('roleId');
-  return roleId;
+  const role = session.get('role');
+  return role;
+}
+export async function getUserName (request: Request){
+  const session = await getSession(request);
+  const name = session.get('name');
+  return name;
+}
+export async function getUserAvatar (request: Request){
+  const session = await getSession(request);
+  const avatar = session.get('avatar');
+  return avatar;
 }
 export async function getSettings(request: Request){
   const session = await getSession(request);
@@ -76,7 +94,7 @@ export async function requireUserId(
   const userId = await getUserId(request);
   if (!userId) {
     const searchParams = new URLSearchParams([['redirectTo', redirectTo]]);
-    throw redirect(`/login?${searchParams}`);
+    throw redirect(`/signin?${searchParams}`);
   }
   return userId;
 }
