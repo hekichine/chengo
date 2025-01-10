@@ -13,31 +13,91 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Settings {
-  id Int @id @default(autoincrement())
-  settings String
-  user_id Int
-  user User @relation(fields: [user_id],references: [id],onDelete: NoAction, onUpdate: NoAction)
-}
-model Role{
-  id Int @id @default(autoincrement())
-  role_name String
-  User User[]
-}
 model User{
   id Int @id @default(autoincrement())
-  name String?
   email String @unique
   password String
-  avatar String?
-  role_id Int @default(1)
-  role Role @relation(fields: [role_id],references: [id],onDelete: NoAction, onUpdate: NoAction)
   reviews ProductReview[]
-  settings Settings[]
+  comment ArticleComment[]
+  banned Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+model Agent{
+  id Int @id @default(autoincrement())
+  email String @unique
+  password String
+  banned Boolean @default(false)
+  article Article[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Profile {
+  id Int @id @default(autoincrement())
+  name String?
+  position String?
+  bio String? @db.Text
+  photo String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+// Article
+model Article{
+  id Int @id @default(autoincrement())
+  title String 
+  content String @db.Text 
+  view Int @default(0)
+  tag ArticleTag[]
+  comment ArticleComment[]
+  agent_id Int 
+  agent Agent @relation(fields: [agent_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  category_on_article CategoryOnArticle[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model ArticleComment{
+  id Int @id @default(autoincrement())
+  user_id Int
+  user User @relation(fields: [user_id], references: [id], onDelete: NoAction,onUpdate: NoAction)
+  article_id Int
+  article Article @relation(fields: [article_id], references: [id], onDelete: NoAction,onUpdate: NoAction)
+
+  content String @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model ArticleTag{
+  id Int @id @default(autoincrement())
+  name String
+  article_id Int
+  article Article @relation(fields: [article_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model ArticleCategory{
+  id Int @id @default(autoincrement())
+  name String
+
+  category_on_article CategoryOnArticle[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model CategoryOnArticle {
+  category_id Int 
+  category ArticleCategory @relation(fields: [category_id],references: [id], onDelete: NoAction, onUpdate: NoAction)
+  article_id Int
+  article Article @relation(fields: [article_id], references: [id], onDelete: NoAction,onUpdate: NoAction)
+
+  @@id([category_id,article_id])
+}
+// PRoduct
 
 model ProductImages{
   id Int @id @default(autoincrement())

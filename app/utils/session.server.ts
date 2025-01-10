@@ -2,10 +2,7 @@ import { createCookieSessionStorage ,redirect } from "@remix-run/node";
 
 type SessionData = {
   userId: string
-  role: string
-  avatar?: string
-  settings?: string
-  name?: string
+  email?: string | undefined
 }
 type SessionFlashData = {
   error: string
@@ -23,28 +20,19 @@ const sessionStorage = createCookieSessionStorage<SessionData, SessionFlashData>
 export async function createUserSession({
   request,
   userId,
-  role,
-  name,
-  avatar,
-  settings,
+  email,
   remember,
   redirectTo,
 }: {
   request: Request;
   userId: string;
-  role: string;
-  name: string;
-  avatar: string;
-  settings: string;
+  email: string | undefined;
   remember: boolean;
   redirectTo: string;
 }) {
   const session = await getSession(request);
   session.set('userId', userId);
-  session.set('role', role);
-  session.set('name', name);
-  session.set('avatar', avatar);
-  session.set('settings', settings);
+  session.set('email', email);
   return redirect(redirectTo, {
     headers: {
       'Set-Cookie': await sessionStorage.commitSession(session, {
@@ -67,25 +55,11 @@ export async function getUserId (request: Request){
   const userId = session.get('userId');
   return userId;
 }
-export async function getUserRole (request: Request){
+
+export async function getUserEmail (request: Request){
   const session = await getSession(request);
-  const role = session.get('role');
-  return role;
-}
-export async function getUserName (request: Request){
-  const session = await getSession(request);
-  const name = session.get('name');
-  return name;
-}
-export async function getUserAvatar (request: Request){
-  const session = await getSession(request);
-  const avatar = session.get('avatar');
-  return avatar;
-}
-export async function getSettings(request: Request){
-  const session = await getSession(request);
-  const settings = JSON.parse(session.get('settings') || '{}');
-  return settings;
+  const email = session.get('email');
+  return email;
 }
 export async function requireUserId(
   request: Request,

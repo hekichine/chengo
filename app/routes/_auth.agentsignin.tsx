@@ -24,10 +24,10 @@ export async function action({request}: ActionFunctionArgs){
     return json({errors},{status:401})
   }
   // Check user exists
-  const user = await db.user.findUnique({
+  const user = await db.agent.findUnique({
     where: {
       email: email
-    }
+    },
   })
   if(!user){
     errors.email = ['Email or password incorrect'];
@@ -44,7 +44,7 @@ export async function action({request}: ActionFunctionArgs){
     userId: user.id.toString(),
     email: user.email,
     remember: remember,
-    redirectTo: '/'
+    redirectTo: '/admin'
   })
 }
 
@@ -52,7 +52,7 @@ export default function SignIn(){
   const actionData = useActionData();
   return (
     <>
-      <section className="bg-gray-50 dark:bg-gray-900">
+      <section className="bg-gray-50 dark:bg-gray-900 AgentSignIn">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
             <Link to={'/'} className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
                 <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" />
@@ -91,7 +91,7 @@ export default function SignIn(){
                         </div>
                         <button type="submit" className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Sign in</button>
                         <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                            Don’t have an account yet? <Link to={'/signup'} className="font-medium text-blue-600 hover:underline dark:text-blue-500">Sign up</Link>
+                            Don’t have an account yet? <Link to={'/agentsignup'} className="font-medium text-blue-600 hover:underline dark:text-blue-500">Sign up</Link>
                         </p>
                     </Form>
                 </div>
