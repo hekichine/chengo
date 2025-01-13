@@ -7,7 +7,7 @@ import { db } from "./db.server";
 export async function requireAdmin(request: Request) {
   const agentId = await getUserId(request);
   const agent_email = await getUserEmail(request);
-  console.log(agentId,agent_email)
+  // console.log(agentId,agent_email)
   if (!agentId || !agent_email) {
     throw redirect("/");
   }
