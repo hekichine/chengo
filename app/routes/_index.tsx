@@ -3,8 +3,8 @@ import { Outlet } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Teciby" },
-    { name: "description", content: "Welcome to Teciby!" },
+    { title: "Chengo" },
+    { name: "description", content: "Welcome to Chengo!" },
   ];
 };
 

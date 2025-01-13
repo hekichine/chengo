@@ -9,11 +9,11 @@ type SessionFlashData = {
 }
 const sessionStorage = createCookieSessionStorage<SessionData, SessionFlashData>({
   cookie: {
-    name: '__tecibysession',
+    name: '__Chengosession',
     httpOnly: true,
     path: '/',
     sameSite: 'lax',
-    secrets: ['teciby'], 
+    secrets: ['Chengo'], 
     secure: process.env.NODE_ENV === 'production',
   },
 });
