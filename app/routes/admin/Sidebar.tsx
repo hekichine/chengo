@@ -11,7 +11,7 @@ import { ReactNode } from "react";
 type NavItem = {
   id: number,
   label: string,
-  path: string,
+  path?: string,
   icon?: ReactNode
 }
 
@@ -37,6 +37,10 @@ const navItems: NavItem[] = [
   },
   {
     id: 4,
+    label: "Auth",
+  },
+  {
+    id: 5,
     label: 'Sign out',
     path: '/signout',
     icon: <IoIosLogOut/> 
@@ -55,9 +59,11 @@ export default function Sidebar(){
         <nav className="mt-4">
           <ul className="flex flex-col gap-1">
             {navItems && navItems.map((item) => (
-              <li key={item.id}>
+              <>
+              {item.path ? (<li key={item.id}>
                 <NavLink to={item.path} className={ `align-middle select-none font-bold text-center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none py-3 rounded-lg w-full flex items-center gap-4 px-4 capitalize ${location.pathname === item.path ? "text-white bg-gray-800" : "text-gray-500 hover:bg-gray-500/10 active:bg-gray-500/30"} `}> {item.icon} {item.label}</NavLink>
-              </li>
+              </li>) : ( <li key={item.id} className="uppercase text-base font-semibold my-2 text-gray-400">{item.label}</li> )}
+              </>
             ))}
           </ul>
         </nav>

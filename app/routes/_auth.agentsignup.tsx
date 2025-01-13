@@ -46,6 +46,7 @@ export const action = async ({request}: ActionFunctionArgs) => {
   return createUserSession({
     request,
     userId: user_id,
+    email: email,
     remember: true,
     redirectTo:'/admin'
   })
