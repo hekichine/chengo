@@ -6,6 +6,7 @@ import { IoIosLogOut } from "react-icons/io";
 import { Fragment, ReactNode } from "react";
 import { CiSettings, CiStar, CiViewList } from "react-icons/ci";
 import { GrArticle } from "react-icons/gr";
+import { FiUsers } from "react-icons/fi";
 
 
 
@@ -42,7 +43,7 @@ const navItems: NavItem[] = [
     icon: <MdOutlineCategory />
   },
   {
-    id: 22,
+    id: 23,
     label: 'Review',
     path: '/admin/review',
     icon: <CiStar />
@@ -72,17 +73,27 @@ const navItems: NavItem[] = [
   },
   {
     id: 4,
-    label: "Auth",
+    label: 'User'
+  },
+  {
+    id: 41,
+    label: 'User',
+    path: '/admin/user',
+    icon: <FiUsers />
   },
   {
     id: 5,
+    label: "Auth",
+  },
+  {
+    id: 6,
     label: "Settings",
     path: '/admin/profile',
     icon: <CiSettings />
 
   },
   {
-    id: 6,
+    id: 7,
     label: 'Sign out',
     path: '/signout',
     icon: <IoIosLogOut/> 
@@ -98,12 +109,12 @@ export default function Sidebar(){
           <h2 className="text-3xl font-bold">Chengo</h2>
         </div>
 
-        <nav className="mt-4">
+        <nav className="mt-4 max-h-[75vh] overflow-y-auto">
           <ul className="flex flex-col gap-1">
             {navItems && navItems.map((item) => (
               <Fragment key={item.id}>
               {item.path ? (<li key={item.id}>
-                <NavLink to={item.path} className={ `align-middle select-none font-semibold text-center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none py-3 rounded-lg w-full flex items-center gap-4 px-4 capitalize ${location.pathname === item.path ? "text-white bg-gray-800" : "text-gray-500 hover:bg-gray-500/10 active:bg-gray-500/30"} `}> {item.icon} {item.label}</NavLink>
+                <NavLink to={item.path} className={ `align-middle select-none font-semibold text-center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none py-3 rounded-lg w-full flex items-center gap-4 px-4 capitalize ${location.pathname.includes(item.path) ? "text-white bg-gray-800" : "text-gray-500 hover:bg-gray-500/10 active:bg-gray-500/30"} `}> {item.icon} {item.label}</NavLink>
               </li>) : ( <li key={item.id} className="uppercase text-sm font-semibold my-2 text-gray-400">{item.label}</li> )}
               </Fragment>
             ))}

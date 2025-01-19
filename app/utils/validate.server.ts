@@ -1,4 +1,4 @@
-export interface ValidateErrors {
+export type ValidateErrors = {
   email? :string[],
   password? :string[],
   confirmPassword? :string[],

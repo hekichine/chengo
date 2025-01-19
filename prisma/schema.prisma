@@ -31,6 +31,7 @@ model Agent{
   banned Boolean @default(false)
   article Article[]
 
+  profile Profile?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -41,12 +42,15 @@ model Profile {
   bio String? @db.Text
   photo String?
 
+  agent_id Int @unique
+  agent Agent @relation(fields: [agent_id], references: [id] )
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 // Article
 model Article{
   id Int @id @default(autoincrement())
+  preview_image String?  
   title String 
   content String @db.Text 
   view Int @default(0)
@@ -114,6 +118,7 @@ model Product{
   price Float
   compare_price Float
   description String
+  publish Boolean @default(false)
   images ProductImages[]
   category_id Int
   product_attributes ProductAttributes[]

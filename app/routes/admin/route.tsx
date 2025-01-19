@@ -13,8 +13,7 @@ export default function Admin(){
   return (
     <div className="bg-gray-50 h-screen">
       <Sidebar />
-      <main className="md:ms-96 pt-5">
-
+      <main className="md:ms-80 p-5">
         <Outlet />
       </main>
     </div>

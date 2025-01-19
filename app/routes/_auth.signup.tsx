@@ -28,7 +28,7 @@ export const action = async ({request}: ActionFunctionArgs) => {
       email: email
     }
   })
-  console.log(user)
+  // console.log(user)
   if(user){
     return json({
       errors: {
@@ -47,6 +47,7 @@ export const action = async ({request}: ActionFunctionArgs) => {
   return createUserSession({
     request,
     userId: user_id,
+    email: email,
     remember: true,
     redirectTo:'/'
   })
