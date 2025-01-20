@@ -19,7 +19,8 @@ export default function Article(){
     <>
       <PageHeading text="Article" />
       <div className="bg-white rounded shadow">
-        <div className="flex justify-end p-2 lg:p-5">
+        <div className="flex justify-end p-2 lg:p-5 gap-4">
+          <Link to={'/admin/article/tag'} className="bg-blue-600 text-white px-5 py-2 hover:bg-blue-500 transition-all flex items-center justify-center rounded">Add Tag</Link>
           <Link to={'/admin/article/create'} className="bg-blue-600 text-white px-5 py-2 hover:bg-blue-500 transition-all flex items-center justify-center rounded">Add new</Link>
         </div>
         <div className="p-5">

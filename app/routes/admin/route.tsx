@@ -11,12 +11,15 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function Admin(){
   return (
-    <div className="bg-gray-50 h-screen">
-      <Sidebar />
-      <main className="md:ms-80 p-5">
-        <Outlet />
-      </main>
-    </div>
+    <>
+      <div className="bg-gray-50 h-screen">
+        <Sidebar />
+        <main className="md:ms-80 p-5">
+          <Outlet />
+        </main>
+      </div>
+    </>
+
   )
 }
 
