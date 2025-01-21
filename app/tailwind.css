@@ -2,3 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+.quill .ql-toolbar{
+  position: sticky;
+  top: 0;
+  background: white;
+}
+.quill .ql-container{
+  max-height: 60vh;
+  overflow: auto;
+}
+article pre.ql-syntax {
+  background-color: #23241f;
+  color: #f8f8f2;
+  overflow: visible;
+  padding: 15px;
+}

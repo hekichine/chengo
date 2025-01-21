@@ -51,6 +51,26 @@ export type Article = {
   createdAt?: Date,
   updatedAt?: Date
 }
+export type ArticleGet = {
+  id: number,
+  preview_image: string,
+  title: string,
+  content: string,
+  agent:{
+    omit: {
+      password:true
+    },
+    profile: {
+      name: string
+    }
+  },
+  view: number,
+  tag: {
+    name: string
+  },
+  published: boolean,
+  updatedAt: Date
+}
 export type CategoryOnArticle ={
   category_id: number,
   article_id: number

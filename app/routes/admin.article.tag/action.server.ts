@@ -1,10 +1,9 @@
-import { ActionFunctionArgs, json } from "@remix-run/node";
+import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
 import { db } from "~/utils/db.server";
 
 export default async ({request}: ActionFunctionArgs) => {
   const formData = await request.formData();
   const name = formData.get('name') as string;
-  console.log("action", name)
   if(!name){
     return json({
       error: true,
@@ -26,10 +25,5 @@ export default async ({request}: ActionFunctionArgs) => {
       status: 500
     });
   }
-  return json({
-    erorr: false,
-    message: 'Tag created successfully'
-  },{
-    status:200
-  });
+  return redirect('/admin/article')
 }

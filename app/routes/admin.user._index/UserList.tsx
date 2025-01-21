@@ -4,6 +4,7 @@ interface UserProp {
   users: UserType[]
 }
 export default function UserList({users}: UserProp){
+  
   return(
     <>
       <div className="mt-6 mb-8 flex flex-col gap-12">

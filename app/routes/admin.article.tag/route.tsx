@@ -9,7 +9,6 @@ export const action = actionServer;
 export default function Tag(){
   const [tag,setTag] = useState<string>('');
   const fetcher = useFetcher();
-
   const handleSave = () => {
     const formData = new FormData();
     formData.append('name', tag);

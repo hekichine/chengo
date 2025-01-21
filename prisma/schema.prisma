@@ -54,11 +54,15 @@ model Article{
   title String 
   content String @db.Text 
   view Int @default(0)
-  tags ArticleTag[]
+
+  tag_id Int
+  tag ArticleTag @relation(fields: [tag_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
   comment ArticleComment[]
   agent_id Int 
   agent Agent @relation(fields: [agent_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
+  published Boolean @default(false)
   category_on_article CategoryOnArticle[]
 
   createdAt DateTime @default(now())
@@ -79,8 +83,8 @@ model ArticleComment{
 model ArticleTag{
   id Int @id @default(autoincrement())
   name String
-  article_id Int?
-  article Article? @relation(fields: [article_id], references: [id])
+
+  article Article[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

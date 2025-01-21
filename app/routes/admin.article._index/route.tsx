@@ -14,7 +14,8 @@ export const meta: MetaFunction = () => {
 export const loader = loaderServer;
 
 export default function Article(){
-  const articles  = useLoaderData<typeof loader>();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const articles: any = useLoaderData<typeof loader>();
   return (
     <>
       <PageHeading text="Article" />
