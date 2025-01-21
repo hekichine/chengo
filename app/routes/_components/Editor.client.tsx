@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -6,6 +7,11 @@ interface EditorProps {
   onChange: (value: string) => void
 }
 export default function Editor({value, onChange}: EditorProps) {
+  const [domLoaded, setDomLoaded] = useState(false);
+
+  useEffect(() => {
+    setDomLoaded(true);
+  }, []);
 
   const toolbarOptions = [
     ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
@@ -31,5 +37,13 @@ export default function Editor({value, onChange}: EditorProps) {
   const module = {
     toolbar: toolbarOptions
   }
-  return <ReactQuill modules={module} theme="snow" value={value} onChange={onChange} />;
+  return (
+    <>
+      {
+        domLoaded && (
+          <ReactQuill modules={module} theme="snow" value={value} onChange={onChange} />
+        )
+      }
+    </>
+  )
 }

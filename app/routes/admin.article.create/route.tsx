@@ -16,10 +16,6 @@ export default function CreateArticle(){
   const [title,setTitle] = useState<string>('')
   const [content, setContent] = useState<string>('');
   const [tag, setTag] = useState<string>('');
-  const [file, setFile] = useState(null);
-  const handleChange = (file) => {
-    setFile(file);
-  };
   const fetcher = useFetcher();
 
   const {tags} = useLoaderData<typeof loader>()

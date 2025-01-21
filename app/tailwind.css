@@ -11,9 +11,3 @@
   max-height: 60vh;
   overflow: auto;
 }
-article pre.ql-syntax {
-  background-color: #23241f;
-  color: #f8f8f2;
-  overflow: visible;
-  padding: 15px;
-}

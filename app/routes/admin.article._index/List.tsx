@@ -1,7 +1,6 @@
 
 import { Link } from "@remix-run/react"
 import { ArticleGet } from "~/types/Article"
-import Timer from "~/utils/convertTime.client"
 
 export type ArticlListProps = {
   articles: ArticleGet[]
@@ -52,7 +51,7 @@ export default function List({articles}: ArticlListProps){
                         {article.published ?  <div className="relative grid items-center font-sans uppercase whitespace-nowrap select-none bg-gradient-to-tr from-red-600 to-red-400 text-white rounded-lg py-0.5 px-2 text-[11px] font-semibold w-fit"><span>Draf</span></div>:<div className="relative grid items-center font-sans uppercase whitespace-nowrap select-none bg-gradient-to-tr from-green-600 to-green-400 text-white rounded-lg py-0.5 px-2 text-[11px] font-semibold w-fit"><span>Active</span></div>}
                       </td>
                       <td className={`py-3 px-5 ${index !== articles.length - 1 ? "border-b border-blue-gray-50" : ""}`}>
-                        {Timer(articles[0].updatedAt)}
+                        {new Intl.DateTimeFormat('vi-vn').format(article.updatedAt)}
                       </td>
                       <td className={`py-3 px-5 ${index !== articles.length - 1 ? "border-b border-blue-gray-50" : ""}`}>
                         <div className="flex items-center gap-4">

@@ -1,7 +1,7 @@
 import { LoaderFunctionArgs, redirect } from "@remix-run/node";
 import { db } from "~/utils/db.server";
 
-export default async ({params} : LoaderFunctionArgs) => {
+export default async function loader({params} : LoaderFunctionArgs) {
 
   const {id} = params;
   const article = await db.article.findUnique({
